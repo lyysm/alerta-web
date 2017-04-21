@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}alerta-web{% endblock %}
+{% block css %}
+    <!-- datatables -->
+    <link rel="stylesheet" href="{% static "datatables/dataTables.bootstrap.css" %}">
+{% endblock %}
+
+{% block content %}
+    <!-- template context -->
+    <aside class="main-sidebar">
+        <!-- sidebar -->
+        <section class="sidebar">
+            {% include 'main-sidebar.html' %}
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu">
+                <!--li class="header">Menu</li-->
+                <!-- dashboard -->
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/">首页</a></li>
+                    </ul>
+                </li>
+                <!-- alerta-web-->
+                <li class="active treeview">
+                    <a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>Alerta-Web</span>
+                        <span class="pull-right-container">
+                        <span class="label label-primary pull-right">4</span>
+                        </span>
+                    </a>
+                    <ul class="active treeview-menu">
+                        <li class="active"><a href="/alert"><i class="fa fa-circle-o"></i>alert</a></li>
+                        <li><a href="top10"><i class="fa fa-circle-o"></i>Top10</a></li>
+                        <li><a href="users"><i class="fa fa-circle-o"></i>users</a></li>
+                        <li><a href="about"><i class="fa fa-circle-o"></i>about</a></li>
+
+                    </ul>
+                </li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                alert
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">alert</li>
+            </ol>
+        </section>
+
+        <section class="content">
+            <!-- Info boxes -->
+            <div class="box">
+                <div class="box-body">
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <select class="form-control input-sm" ng-model="option" ng-change="setService(option)"
+                                ng-options="s as s.service group by s.environment for s in services | orderBy:['environment','service']">
+                            <option value="" ng-model="option" ng-change="setService(null)">Service</option>
+                        </select>
+                    </div>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                        <input class="form-control input" ng-model="search" size="8" placeholder="Search">
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                        <select class="form-control input-sm"
+                                ng-options="item as item.name for item in show track by item.name" ng-model="status"
+                                ng-change="update()"></select>
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                        <button type="button" class="btn btn-primary btn-block" ng-click="refresh()"
+                                ng-disabled="autoRefresh">refreshText
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <audio ng-if="play" ng-src="audio.new" autoplay></audio>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">alert-list</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="alert-list" class="table table-bordered table-striped " width="100%">
+                                <thead>
+                                <tr>
+                                    <th>severityCode</th>
+                                    <th>status</th>
+                                    <th>Time</th>
+                                    <th>lastReceiveTime</th>
+                                    <th>duplicateCount</th>
+                                    <th>customer</th>
+                                    <th>environment</th>
+                                    <th>service</th>
+                                    <th>Resource</th>
+                                    <th>Event</th>
+                                    <th>value</th>
+                                    <th>text</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>severityCode</th>
+                                    <th>status</th>
+                                    <th>Time</th>
+                                    <th>lastReceiveTime</th>
+                                    <th>duplicateCount</th>
+                                    <th>customer</th>
+                                    <th>environment</th>
+                                    <th>service</th>
+                                    <th>Resource</th>
+                                    <th>Event</th>
+                                    <th>value</th>
+                                    <th>text</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </section>
+    </div>
+    <!-- container -->
+    <!-- end template context -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+{% endblock %}
+<!-- page script -->
+{% block js %}
+    <script>
+        $(function () {
+            $('#alert-list').DataTable();
+        });
+    </script>
+
+{% endblock %}

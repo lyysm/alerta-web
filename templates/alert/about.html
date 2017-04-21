@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Alert-About{% endblock %}
+{% block css %}
+    <!-- datatables -->
+    <link rel="stylesheet" href="{% static "datatables/dataTables.bootstrap.css" %}">
+{% endblock %}
+
+{% block content %}
+    <!-- template context -->
+    <aside class="main-sidebar">
+        <!-- sidebar -->
+        <section class="sidebar">
+{% include 'main-sidebar.html' %}
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu">
+                <!--li class="header">Menu</li-->
+                <!-- dashboard -->
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/">首页</a></li>
+                    </ul>
+                </li>
+                <!-- alerta-web-->
+                <li class="active treeview">
+                    <a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>Alerta-Web</span>
+                        <span class="pull-right-container">
+                        <span class="label label-primary pull-right">4</span>
+                        </span>
+                    </a>
+                    <ul class="active treeview-menu">
+                        <li><a href="/alert"><i class="fa fa-circle-o"></i>alert</a></li>
+                        <li><a href="top10"><i class="fa fa-circle-o"></i>Top10</a></li>
+                        <li><a href="users"><i class="fa fa-circle-o"></i>users</a></li>
+                        <li class="active"><a href="about"><i class="fa fa-circle-o"></i>about</a></li>
+
+                    </ul>
+                </li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                About
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="/"><i class="fa fa-dashboard"></i></a>Home</li>
+                <li class="active">About</li>
+            </ol>
+        </section>
+
+        <section class="content">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">API</span>
+                            <span class="info-box-number">{{ api }}</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Build</span>
+                            <span class="info-box-number">{{ build }}</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Date</span>
+                            <span class="info-box-number">{{ now }}</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Uptime</span>
+                            <span class="info-box-number">{{ uptime }}</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            </div>
+            <!-- /.col -->
+            <!-- Info boxes -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">About</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="about" class="table table-bordered table-striped " width="100%">
+                                <thead>
+                                <tr>
+                                    <th>Metric</th>
+                                    <th>Type</th>
+                                    <th>Name</th>
+                                    <th>Value</th>
+                                    <th>Group</th>
+                                    <th>Avg.Time</th>
+                                    <th>description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for metric in data %}
+                                    <tr>
+
+                                        <td>{{ metric.title }}</td>
+                                        <td>{{ metric.type }}</td>
+                                        <td>{{ metric.name }}</td>
+                                        <td>{{ metric.value }} {{ metric.count }}</td>
+                                        <td>{{ metric.group }}</td>
+                                        {% if 'totalTime' in metric %}
+                                        <td>{% widthratio metric.totalTime metric.count 1 %}ms</td>
+                                        {% else %}
+                                            <td></td>
+                                        {% endif %}
+                                        <td>{{ metric.description }}</td>
+
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </section>
+    </div>
+    <!-- container -->
+    <!-- end template context -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+{% endblock %}
+<!-- page script -->
+{% block js %}
+
+
+{% endblock %}
